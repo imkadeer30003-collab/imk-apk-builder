@@ -1,7 +1,10 @@
+
 name: Build Website APK
 
 on:
   workflow_dispatch:
+  repository_dispatch:
+    types: [build-apk]
 
 permissions:
   contents: read
@@ -9,6 +12,7 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
@@ -34,4 +38,3 @@ jobs:
           path: app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
           retention-days: 7
-          
