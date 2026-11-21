@@ -28,8 +28,29 @@ jobs:
         with:
           gradle-version: '8.9'
 
-      - name: Build debug APK
-        run: gradle --no-daemon :app:assembleDebug
+      - name: Validate website URL
+        env:
+          WEBSITE_URL: ${{ github.event.client_payload.website_url }}
+        run: |
+          if [ -z "$WEBSITE_URL" ]; then
+            echo "Website URL is missing"
+            exit 1
+          fi
+          case "$WEBSITE_URL" in
+            https://*) ;;
+            http://*) ;;
+            *)
+              echo "Invalid website URL"
+              exit 1
+              ;;
+          esac
+
+      - name: Build APK with requested website
+        env:
+          WEBSITE_URL: ${{ github.event.client_payload.website_url }}
+        run: |
+          gradle --no-daemon :app:assembleDebug \
+            -PwebsiteUrl="$WEBSITE_URL"
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
