@@ -18,7 +18,7 @@ android {
         buildConfigField(
             "String",
             "DEFAULT_WEBSITE_URL",
-            "\"https://example.com\""
+            "\""https://www.imkoriginal.in"\""
         )
     }
 
