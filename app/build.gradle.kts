@@ -15,10 +15,13 @@ android {
         versionCode = 1
         versionName = "1.0"
 
+        val websiteUrl = (project.findProperty("websiteUrl") as String?)
+            ?: "https://www.imkoriginal.in"
+
         buildConfigField(
             "String",
             "DEFAULT_WEBSITE_URL",
-            "\"https://www.imkoriginal.in\""
+            "\"${websiteUrl.replace("\"", "\\\"")}\""
         )
     }
 
